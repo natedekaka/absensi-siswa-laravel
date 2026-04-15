@@ -25,44 +25,15 @@
     font-size: 1.1rem;
 }
 .avatar-laki {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
     color: white;
 }
 .avatar-perempuan {
-    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    background: linear-gradient(135deg, var(--secondary) 0%, #f5576c 100%);
     color: white;
-}
-.search-card {
-    border: none;
-    border-radius: 16px;
-    background: white;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-}
-.search-icon {
-    background: #f8f9fa;
-    border: none;
-    border-radius: 12px 0 0 12px;
-}
-.search-input {
-    border: none;
-    border-radius: 0 12px 12px 0;
-    padding-left: 0;
-}
-.search-input:focus {
-    box-shadow: none;
-}
-.table-header-custom {
-    background: linear-gradient(135deg, var(--primary) 0%, #6c5ce7 100%);
-    color: white;
-}
-.table-siswa tbody tr {
-    transition: all 0.2s;
-}
-.table-siswa tbody tr:hover {
-    background: #f8f9fa;
 }
 .badge-kelas {
-    background: rgba(79, 70, 229, 0.1);
+    background: rgba(var(--primary-rgb), 0.1);
     color: var(--primary);
     padding: 0.4rem 0.8rem;
     border-radius: 20px;
@@ -80,15 +51,6 @@
 }
 .btn-action:hover {
     transform: scale(1.1);
-}
-.pagination-custom .page-link {
-    color: var(--primary);
-    border-radius: 8px;
-    margin: 0 2px;
-}
-.pagination-custom .page-item.active .page-link {
-    background-color: var(--primary);
-    border-color: var(--primary);
 }
 .delete-icon-container {
     width: 80px;
@@ -125,13 +87,13 @@
     position: relative;
 }
 .option-card:hover {
-    border-color: #25C185;
-    background: rgba(37, 193, 133, 0.05);
+    border-color: var(--secondary);
+    background: rgba(var(--primary-rgb), 0.05);
     transform: translateX(5px);
 }
 .delete-option input:checked + .option-card {
-    border-color: #25C185;
-    background: rgba(37, 193, 133, 0.1);
+    border-color: var(--primary);
+    background: rgba(var(--primary-rgb), 0.1);
 }
 .option-icon {
     width: 45px;
@@ -151,19 +113,6 @@
     align-items: center;
     gap: 0.5rem;
     font-size: 0.9rem;
-}
-.btn-cancel {
-    background: #f8f9fa;
-    border: 2px solid #e0e0e0;
-    border-radius: 12px;
-    padding: 0.75rem 1.5rem;
-    color: #666;
-    font-weight: 600;
-    transition: all 0.3s;
-}
-.btn-cancel:hover {
-    background: #e9ecef;
-    border-color: #ccc;
 }
 .btn-delete {
     background: linear-gradient(135deg, #DC3545 0%, #c82333 100%);
