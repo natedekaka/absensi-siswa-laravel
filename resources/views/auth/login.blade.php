@@ -72,24 +72,54 @@
             z-index: 1;
         }
         .logo-img {
-            width: 80px;
-            height: 80px;
-            border-radius: 20px;
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
             object-fit: cover;
             background: white;
-            padding: 8px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            padding: 6px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+            border: 4px solid rgba(255,255,255,0.3);
         }
         .logo-icon {
-            width: 80px;
-            height: 80px;
-            border-radius: 20px;
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
             background: white;
             display: flex;
             align-items: center;
             justify-content: center;
             margin: 0 auto;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+            border: 4px solid rgba(255,255,255,0.3);
+        }
+        .logo-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+        .logo-glow {
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: glow 2s ease-in-out infinite;
+        }
+        @keyframes glow {
+            0%, 100% { opacity: 0.5; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.05); }
+        }
+        .school-name {
+            position: relative;
+            z-index: 1;
+            color: white;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-top: 16px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            letter-spacing: 0.5px;
         }
         .school-name {
             position: relative;
@@ -226,13 +256,16 @@
         <div class="login-card">
             <div class="login-header">
                 <div class="logo-container">
-                    @if($config->logo && file_exists(public_path('storage/logos/' . $config->logo)))
-                        <img src="{{ asset('storage/logos/' . $config->logo) }}" alt="Logo" class="logo-img">
-                    @else
-                        <div class="logo-icon">
-                            <i class="fas fa-graduation-cap fa-2x text-primary"></i>
-                        </div>
-                    @endif
+                    <div class="logo-wrapper">
+                        <div class="logo-glow"></div>
+                        @if($config->logo && file_exists(public_path('storage/logos/' . $config->logo)))
+                            <img src="{{ asset('storage/logos/' . $config->logo) }}" alt="Logo" class="logo-img">
+                        @else
+                            <div class="logo-icon">
+                                <i class="fas fa-graduation-cap fa-2x" style="color: {{ $config->warna_primer }}"></i>
+                            </div>
+                        @endif
+                    </div>
                     <h4 class="school-name">{{ $config->nama_sekolah }}</h4>
                 </div>
             </div>
