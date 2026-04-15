@@ -104,6 +104,9 @@
                     </button>
                 </form>
             </div>
+            <div class="p-2 text-center border-top border-secondary">
+                <small class="text-muted">Created by <a href="https://github.com/natedekaka" target="_blank" class="text-decoration-none text-secondary fw-semibold">Natedekaka</a></small>
+            </div>
         </nav>
         @endauth
 

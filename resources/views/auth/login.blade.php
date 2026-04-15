@@ -60,6 +60,9 @@
                             </button>
                         </form>
                     </div>
+                    <div class="card-footer text-center bg-white border-0">
+                        <small class="text-muted">Created by <a href="https://github.com/natedekaka" target="_blank" class="text-decoration-none fw-semibold">Natedekaka</a></small>
+                    </div>
                 </div>
             </div>
         </div>
