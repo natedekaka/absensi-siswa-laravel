@@ -238,7 +238,17 @@
             </div>
 
             <div class="login-body">
-                <h5 class="text-center mb-4 fw-bold text-dark">Selamat Datang</h5>
+                <div class="text-center mb-4">
+                    <h5 class="fw-bold text-dark mb-2">Selamat Datang</h5>
+                    <p class="text-muted small mb-0">
+                        <i class="fas fa-clipboard-check me-1"></i>
+                        Sistem Informasi Absensi Siswa
+                    </p>
+                    <p class="text-muted small">
+                        <i class="fas fa-chart-bar me-1"></i>
+                        Monitoring & Rekapitulasi Kehadiran
+                    </p>
+                </div>
 
                 @if($errors->any())
                 <div class="alert alert-danger">
