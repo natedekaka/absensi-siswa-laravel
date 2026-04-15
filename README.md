@@ -6,6 +6,8 @@ Sistem Informasi Absensi Siswa berbasis Laravel 11 dengan PHP 8.2. Aplikasi ini 
 ![PHP](https://img.shields.io/badge/PHP-8.2-blue.svg)
 ![License](https://img.shields.io/badge/License-MIT-green.svg)
 
+> **Created by [Natedekaka](https://github.com/natedekaka)**
+
 ## Fitur
 
 - **Dashboard** - Statistik kehadiran, charts, dan tren harian
