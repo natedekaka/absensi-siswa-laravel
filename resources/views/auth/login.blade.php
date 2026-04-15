@@ -243,6 +243,25 @@
             0%, 100% { transform: translateY(0) rotate(0deg); }
             50% { transform: translateY(-20px) rotate(10deg); }
         }
+        .password-toggle {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 10;
+            cursor: pointer;
+            color: #6b7280;
+            transition: color 0.3s;
+        }
+        .password-toggle:hover {
+            color: var(--primary);
+        }
+        .input-group {
+            position: relative;
+        }
+        .input-group .form-control {
+            padding-right: 45px;
+        }
     </style>
 </head>
 <body>
@@ -251,6 +270,23 @@
         <div class="shape"></div>
         <div class="shape"></div>
     </div>
+
+    <script>
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const toggleIcon = document.getElementById('toggleIcon');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.classList.remove('fa-eye');
+                toggleIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.classList.remove('fa-eye-slash');
+                toggleIcon.classList.add('fa-eye');
+            }
+        }
+    </script>
 
     <div class="login-wrapper">
         <div class="login-card">
@@ -310,6 +346,9 @@
                             <input type="password" class="form-control @error('password') is-invalid @enderror" 
                                    id="password" name="password" 
                                    placeholder="Masukkan password" required>
+                            <span class="password-toggle" onclick="togglePassword()">
+                                <i class="fas fa-eye" id="toggleIcon"></i>
+                            </span>
                         </div>
                     </div>
 
