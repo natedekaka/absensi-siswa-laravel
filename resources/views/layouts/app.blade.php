@@ -63,7 +63,7 @@
             font-weight: 600;
         }
         .sidebar { 
-            background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%); 
+            background: linear-gradient(180deg, var(--primary) 0%, var(--secondary) 100%); 
             min-height: 100vh; 
         }
         .sidebar .nav-link { 
