@@ -81,9 +81,15 @@ absensi-siswa-db        Up (healthy)
 
 #### 4. Akses Aplikasi
 
-```
-🌐 http://localhost:8082
-```
+| Service | URL |
+|---------|-----|
+| 🌐 **Aplikasi** | http://localhost:8082 |
+| 🗄️ **phpMyAdmin** | http://localhost:8084 |
+
+**phpMyAdmin Login:**
+- Server: `db`
+- Username: `root`
+- Password: `rootpass`
 
 #### 5. Login Default
 
