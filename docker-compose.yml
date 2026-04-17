@@ -3,20 +3,42 @@ version: '3.8'
 services:
   app:
     build: .
-    container_name: absensi-siswa-laravel
+    container_name: absensi-siswa-app
     ports:
       - "8082:8082"
     volumes:
-      - ./:/var/www/html
+      - .:/var/www/html
     working_dir: /var/www/html
     command: php -S 0.0.0.0:8082 router.php
     environment:
-      - DB_HOST=10.89.7.2
+      - DB_CONNECTION=mysql
+      - DB_HOST=db
       - DB_PORT=3306
       - DB_DATABASE=absensi_siswa
       - DB_USERNAME=root
       - DB_PASSWORD=rootpass
+    depends_on:
+      db:
+        condition: service_healthy
     restart: unless-stopped
-    dns:
-      - 8.8.8.8
-    network_mode: bridge
+
+  db:
+    image: mariadb:10.11
+    container_name: absensi-siswa-db
+    environment:
+      - MYSQL_ROOT_PASSWORD=rootpass
+      - MYSQL_DATABASE=absensi_siswa
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./database/absensi_siswa.sql:/docker-entrypoint-initdb.d/absensi_siswa.sql:ro
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+volumes:
+  db_data:

@@ -1,12 +1,10 @@
 # Absensi Siswa Laravel
 
-Sistem Informasi Absensi Siswa berbasis Laravel 11 dengan PHP 8.2. Aplikasi ini merupakan hasil migrasi dari aplikasi PHP native.
+Sistem Informasi Absensi Siswa berbasis Laravel 11 dengan PHP 8.2.
 
 ![Laravel](https://img.shields.io/badge/Laravel-11-orange.svg)
 ![PHP](https://img.shields.io/badge/PHP-8.2-blue.svg)
 ![License](https://img.shields.io/badge/License-MIT-green.svg)
-
-> **Created by [Natedekaka](https://github.com/natedekaka)**
 
 ## Fitur
 
@@ -23,94 +21,152 @@ Sistem Informasi Absensi Siswa berbasis Laravel 11 dengan PHP 8.2. Aplikasi ini 
 - **User Management** - Role admin dan operator
 - **Konfigurasi** - Logo dan warna sekolah
 
-## Requirements
+## Cara Memasang (Installation)
 
-- PHP 8.2+
-- Composer
-- MySQL/MariaDB 5.7+
-- Podman atau Docker (untuk container)
+### Prasyarat (Requirements)
+
 - Git
+- Docker Desktop / Podman
+- Web Browser
 
-## Instalasi
-
-### 1. Clone Repository
+### Langkah 1: Clone Repository
 
 ```bash
 git clone https://github.com/natedekaka/absensi-siswa-laravel.git
 cd absensi-siswa-laravel
 ```
 
-### 2. Install Dependencies
+### Langkah 2: Jalankan dengan Docker
 
 ```bash
-composer install
+docker-compose up -d
 ```
 
-### 3. Setup Environment
+Tunggu beberapa menit hingga database ter-import. Cek status:
 
 ```bash
-cp .env.example .env
-# Atau buat file .env dengan konfigurasi berikut:
+docker-compose ps
 ```
 
-Edit file `.env`:
+### Langkah 3: Akses Aplikasi
 
-```env
-APP_NAME="Absensi Siswa"
-APP_ENV=local
-APP_KEY=
-APP_DEBUG=true
-APP_URL=http://localhost:8082
-
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_DATABASE=absensi_siswa
-DB_USERNAME=root
-DB_PASSWORD=rootpass
+Buka browser dan kunjungi:
+```
+http://localhost:8082
 ```
 
-Generate application key:
-
-```bash
-php artisan key:generate
-```
-
-### 4. Setup Database
-
-Buat database:
-
-```sql
-CREATE DATABASE absensi_siswa CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-```
-
-Import database dump:
-
-```bash
-mysql -u root -p absensi_siswa < database/absensi_siswa.sql
-```
-
-### 5. Jalankan Aplikasi
-
-**Dengan Laravel Artisan:**
-```bash
-php artisan serve --host=0.0.0.0 --port=8082
-```
-
-**Dengan Docker/Podman:**
-```bash
-podman-compose up -d
-```
-
-Akses di http://localhost:8082
-
-## Default Login
+### Langkah 4: Login
 
 | Role | Username | Password |
 |------|----------|----------|
 | Admin | admin | admin |
 
-> **Penting:** Ganti password default setelah login pertama!
+> **Penting:** Segera ganti password default setelah login pertama!
+
+---
+
+## Cara Pakai (Usage Guide)
+
+### Setup Awal Setelah Install
+
+1. **Login** dengan akun admin (admin / admin)
+2. **Konfigurasi Sekolah**: Menu **Konfigurasi** → Upload logo & atur warna sekolah
+3. **Set Tahun Ajaran**: Menu **Tahun Ajaran** → Tambah tahun ajaran dan semester
+4. **Aktifkan Semester**: Pilih semester yang sedang berjalan sebagai "Aktif"
+
+### Manajemen Siswa
+
+**Tambah Siswa Manual:**
+1. Menu **Siswa** → Klik "Tambah Siswa"
+2. Isi form: NIS, NISN, Nama, Kelas, Jenis Kelamin
+3. Klik **Simpan**
+
+**Import dari CSV:**
+1. Menu **Siswa** → Klik **Import CSV**
+2. Download template → Isi data sesuai format kolom
+3. Upload file CSV → Klik **Import**
+
+### Absensi Harian
+
+**Input Manual:**
+1. Menu **Absensi**
+2. Pilih Tanggal, Kelas, Semester
+3. Klik tombol absensi pada setiap siswa
+4. Pilih status:
+   - **H** = Hadir
+   - **T** = Terlambat
+   - **S** = Sakit
+   - **I** = Izin
+   - **A** = Alfa (Tidak Hadir)
+5. Klik **Simpan**
+
+**Input Barcode:**
+1. Menu **Absensi** → Tab **Barcode**
+2. Scan QR code siswa atau input NIS manual
+3. Status otomatis tersimpan
+
+### Kenaikan & Kelulusan
+
+**Proses Kenaikan Kelas:**
+1. Menu **Kenaikan**
+2. Pilih tingkat (X→XI atau XI→XII)
+3. Centang siswa yang naik
+4. Klik **Proses Kenaikan**
+
+**Redistribusi (Pindah Kelas):**
+1. Menu **Kenaikan** → Tab **Redistribusi**
+2. Centang siswa yang akan dipindahkan
+3. Pilih kelas tujuan
+4. Klik **Pindahkan**
+
+**Proses Kelulusan:**
+1. Menu **Kenaikan** → Tab **Kelulusan**
+2. Pilih tahun lulus
+3. Klik **Proses Kelulusan**
+4. Siswa kelas 12 akan berpindah ke data alumni
+
+### Rekap Absensi
+
+1. Menu **Rekap**
+2. Pilih kelas dan range tanggal
+3. Lihat statistik per semester
+4. Klik **Export** untuk download Excel/PDF
+
+### Manajemen User
+
+1. Menu **User**
+2. Tambah user baru dengan role Admin atau Operator
+3. Operator memiliki akses terbatas hanya ke fitur absensi
+
+---
+
+## Troubleshooting
+
+### Container tidak mau start
+```bash
+docker-compose down
+docker-compose build --no-cache
+docker-compose up -d
+```
+
+### Database connection error
+1. Pastikan container running: `docker-compose ps`
+2. Cek logs: `docker-compose logs db`
+3. Tunggu sampai database healthy
+
+### Aplikasi blank/blank page
+```bash
+docker-compose exec app php artisan cache:clear
+docker-compose exec app php artisan view:clear
+```
+
+### Reset Database
+```bash
+docker-compose exec db mysql -uroot -prootpass -e "DROP DATABASE absensi_siswa; CREATE DATABASE absensi_siswa;"
+docker-compose restart
+```
+
+---
 
 ## Struktur Project
 
@@ -124,129 +180,65 @@ absensi-siswa-laravel/
 ├── config/                   # Konfigurasi Laravel
 ├── database/
 │   ├── migrations/           # Database migrations
-│   └── absensi_siswa.sql    # Full database dump
+│   ├── seeders/              # Data seeders
+│   └── absensi_siswa.sql     # Full database dump
 ├── public/
-│   └── storage/logos/       # Logo sekolah
+│   └── storage/logos/        # Logo sekolah
 ├── resources/
 │   └── views/                # Blade templates
-│       ├── layouts/         # Layout utama
-│       ├── auth/            # Halaman login
-│       ├── dashboard/       # Dashboard
-│       ├── siswa/           # Manajemen siswa
-│       ├── kelas/          # Manajemen kelas
-│       ├── absensi/        # Absensi manual & barcode
-│       ├── rekap/          # Rekap absensi
-│       ├── kenaikan/       # Kenaikan & kelulusan
-│       ├── tahun-ajaran/   # Tahun ajaran
-│       ├── user/           # User management
-│       └── konfigurasi/    # Konfigurasi
+│       ├── layouts/          # Layout utama
+│       ├── auth/             # Halaman login
+│       ├── dashboard/        # Dashboard
+│       ├── siswa/            # Manajemen siswa
+│       ├── kelas/            # Manajemen kelas
+│       ├── absensi/          # Absensi manual & barcode
+│       ├── rekap/            # Rekap absensi
+│       ├── kenaikan/         # Kenaikan & kelulusan
+│       ├── tahun-ajaran/     # Tahun ajaran
+│       ├── user/             # User management
+│       └── konfigurasi/      # Konfigurasi
 ├── routes/
-│   └── web.php             # Web routes
+│   └── web.php              # Web routes
 ├── storage/
-│   └── app/                # Storage files
-├── docker-compose.yml       # Podman/Docker compose
-├── Dockerfile              # Container config
-└── router.php             # PHP built-in server router
+│   └── app/                 # Storage files
+├── docker-compose.yml        # Docker compose (App + Database)
+├── Dockerfile               # Container config
+├── router.php               # PHP built-in server router
+└── README.md
 ```
 
-## Konfigurasi Container
+---
 
-### Podman (Direkomendasikan)
+## Development (Tanpa Docker)
+
+### Prasyarat
+- PHP 8.2+
+- Composer
+- MySQL/MariaDB 5.7+
+
+### Setup
 
 ```bash
-# Start container
-podman-compose up -d
+# Install dependencies
+composer install
 
-# Stop container
-podman-compose down
+# Copy environment file
+cp .env.example .env
 
-# Restart container
-podman-compose restart
+# Generate application key
+php artisan key:generate
 
-# View logs
-podman-compose logs -f
+# Buat database
+mysql -u root -p -e "CREATE DATABASE absensi_siswa CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
+
+# Import database
+mysql -u root -p absensi_siswa < database/absensi_siswa.sql
+
+# Jalankan
+php artisan serve --host=0.0.0.0 --port=8082
 ```
 
-### Docker
-
-```bash
-docker-compose up -d
-```
-
-### Koneksi Database External
-
-Jika database di container lain, update `docker-compose.yml`:
-
-```yaml
-environment:
-  - DB_HOST=10.89.7.2  # IP container database
-  - DB_PORT=3306
-  - DB_DATABASE=absensi_siswa
-  - DB_USERNAME=root
-  - DB_PASSWORD=rootpass
-```
-
-## Panduan Pengguna
-
-### 1. Setup Awal
-
-1. Login dengan akun admin
-2. Menu **Konfigurasi** → Upload logo & setting warna sekolah
-3. Menu **Tahun Ajaran** → Tambah tahun ajaran dan semester
-4. Aktifkan semester yang sedang berjalan
-
-### 2. Manajemen Siswa
-
-**Tambah Siswa Manual:**
-1. Menu **Siswa** → Klik "Tambah Siswa"
-2. Isi form NIS, NISN, Nama, Kelas, Jenis Kelamin
-3. Klik Simpan
-
-**Import dari CSV:**
-1. Menu **Siswa** → Import CSV
-2. Download template → Isi data sesuai format
-3. Upload file CSV → Klik Import
-
-### 3. Absensi Harian
-
-**Input Manual:**
-1. Menu **Absensi**
-2. pilih Tanggal, Kelas, Semester
-3. Klik Absensi pada setiap siswa
-4. Pilih status: Hadir (H), Terlambat (T), Sakit (S), Izin (I), Alfa (A)
-5. Klik Simpan
-
-**Input Barcode:**
-1. Menu **Absensi** → Tab Barcode
-2. Scan QR code siswa atau input NIS manual
-3. Status otomatis tersimpan
-
-### 4. Kenaikan Kelas
-
-**Proses Kenaikan:**
-1. Menu **Kenaikan**
-2. Pilih tingkat (X→XI atau XI→XII)
-3. Klik "Proses Kenaikan"
-
-**Redistribusi Kelas:**
-1. Menu **Kenaikan** → Redistribusi
-2. Centang siswa yang akan dipindahkan
-3. Pilih kelas tujuan
-4. Klik "Pindahkan"
-
-### 5. Kelulusan
-
-1. Menu **Kenaikan** → Kelulusan
-2. Pilih tahun lulus
-3. Klik "Proses Kelulusan"
-4. Siswa kelas 12 akan berpindah ke alumni
-
-### 6. Rekap Absensi
-
-1. Menu **Rekap**
-2. Pilih kelas dan range tanggal
-3. Lihat statistik Semester 1 & 2
-4. Export ke Excel/PDF
+---
 
 ## API Routes
 
@@ -265,34 +257,11 @@ environment:
 | GET | /kelulusan | Kelulusan |
 | GET | /tahun-ajaran | Tahun ajaran |
 
-## Troubleshooting
-
-### Logo tidak tampil
-```bash
-# Buat storage symlink
-php artisan storage:link
-
-# Atau copy manual
-mkdir -p public/storage/logos
-cp storage/app/public/logos/* public/storage/logos/
-```
-
-### Database connection error
-1. Pastikan MySQL/MariaDB running
-2. Cek kredensial di `.env`
-3. Pastikan database `absensi_siswa` ada
-
-### Container won't start
-```bash
-# Rebuild container
-podman-compose down
-podman-compose build --no-cache
-podman-compose up -d
-```
+---
 
 ## License
 
-MIT License - lihat file [LICENSE](LICENSE) untuk detail.
+MIT License
 
 ## Support
 
