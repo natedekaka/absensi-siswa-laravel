@@ -38,6 +38,8 @@ cd absensi-siswa-laravel
 
 ### Langkah 2: Jalankan dengan Docker
 
+> **Catatan:** Dengan Docker, file `.env` tidak diperlukan karena semua konfigurasi sudah ada di `docker-compose.yml`.
+
 ```bash
 docker-compose up -d
 ```
@@ -218,25 +220,58 @@ absensi-siswa-laravel/
 
 ### Setup
 
+**1. Install Dependencies**
 ```bash
-# Install dependencies
 composer install
+```
 
-# Copy environment file
+**2. Buat file `.env`**
+```bash
 cp .env.example .env
+```
 
-# Generate application key
+**3. Konfigurasi `.env`**
+
+Buka file `.env` dan sesuaikan konfigurasi database:
+
+```env
+APP_NAME="Absensi Siswa"
+APP_ENV=local
+APP_KEY=
+APP_DEBUG=true
+APP_URL=http://localhost:8082
+
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=absensi_siswa
+DB_USERNAME=root
+DB_PASSWORD=your_password
+```
+
+> **Sesuaikan:** Ganti `DB_HOST`, `DB_PORT`, `DB_USERNAME`, dan `DB_PASSWORD` sesuai konfigurasi MySQL di komputer kamu.
+
+**4. Generate Application Key**
+```bash
 php artisan key:generate
+```
 
-# Buat database
+**5. Buat Database**
+```bash
 mysql -u root -p -e "CREATE DATABASE absensi_siswa CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
+```
 
-# Import database
+**6. Import Database**
+```bash
 mysql -u root -p absensi_siswa < database/absensi_siswa.sql
+```
 
-# Jalankan
+**7. Jalankan Aplikasi**
+```bash
 php artisan serve --host=0.0.0.0 --port=8082
 ```
+
+Akses di http://localhost:8082
 
 ---
 
